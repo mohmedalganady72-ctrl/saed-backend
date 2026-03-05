@@ -1,0 +1,375 @@
+{
+  "info": {
+    "_postman_id": "7f7a22c8-6720-4680-a3dd-c0b8b0da98cd",
+    "name": "University App API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection for saed_app_api endpoints."
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET /",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST /auth/register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code >= 200 && pm.response.code < 300) {",
+                  "  const data = pm.response.json();",
+                  "  if (data && data.data) {",
+                  "    if (data.data.access_token) pm.collectionVariables.set('token', data.data.access_token);",
+                  "    if (data.data.refresh_token) pm.collectionVariables.set('refresh_token', data.data.refresh_token);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"academic_number\": \"441234567\",\n  \"password\": \"12345678\",\n  \"full_name\": \"Test User\",\n  \"department\": \"Computer Science\",\n  \"academic_level\": \"Level 6\",\n  \"bio\": \"API test account\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/register"
+          }
+        },
+        {
+          "name": "POST /auth/login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code >= 200 && pm.response.code < 300) {",
+                  "  const data = pm.response.json();",
+                  "  if (data && data.data) {",
+                  "    if (data.data.access_token) pm.collectionVariables.set('token', data.data.access_token);",
+                  "    if (data.data.refresh_token) pm.collectionVariables.set('refresh_token', data.data.refresh_token);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"academic_number\": \"441234567\",\n  \"password\": \"12345678\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "POST /auth/refresh",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code >= 200 && pm.response.code < 300) {",
+                  "  const data = pm.response.json();",
+                  "  if (data && data.data) {",
+                  "    if (data.data.access_token) pm.collectionVariables.set('token', data.data.access_token);",
+                  "    if (data.data.refresh_token) pm.collectionVariables.set('refresh_token', data.data.refresh_token);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/refresh"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public Listings",
+      "item": [
+        {
+          "name": "GET /categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/categories"
+          }
+        },
+        {
+          "name": "GET /listings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/listings?limit=20&status=available"
+          }
+        },
+        {
+          "name": "GET /listings/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/listings/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User (Protected)",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{token}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "GET /me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/me"
+          }
+        },
+        {
+          "name": "PATCH /me",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"full_name\": \"Updated User\",\n  \"bio\": \"Updated bio\",\n  \"department\": \"Computer Science\",\n  \"academic_level\": \"Level 7\",\n  \"is_notifications_enabled\": true\n}"
+            },
+            "url": "{{baseUrl}}/me"
+          }
+        },
+        {
+          "name": "GET /me/notifications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/me/notifications?limit=20"
+          }
+        },
+        {
+          "name": "PATCH /me/notifications/read-all",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{baseUrl}}/me/notifications/read-all"
+          }
+        },
+        {
+          "name": "PATCH /me/notifications/{id}/read",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{baseUrl}}/me/notifications/1/read"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Listings (Protected)",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{token}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "POST /listings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category_id\": 1,\n  \"title\": \"Data Structures Book\",\n  \"description\": \"Used but clean.\",\n  \"condition_level\": \"used\",\n  \"location\": \"Engineering College\",\n  \"listing_type\": \"إهداء\",\n  \"images\": [\n    \"https://example.com/book-1.jpg\"\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/listings"
+          }
+        },
+        {
+          "name": "GET /listings/mine",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/listings/mine"
+          }
+        },
+        {
+          "name": "DELETE /listings/{id}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/listings/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Requests (Protected)",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{token}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "POST /requests",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"listing_id\": 1\n}"
+            },
+            "url": "{{baseUrl}}/requests"
+          }
+        },
+        {
+          "name": "GET /requests/incoming",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/requests/incoming"
+          }
+        },
+        {
+          "name": "GET /requests/outgoing",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/requests/outgoing"
+          }
+        },
+        {
+          "name": "PATCH /requests/{id}/status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"accepted\"\n}"
+            },
+            "url": "{{baseUrl}}/requests/1/status"
+          }
+        },
+        {
+          "name": "GET /requests/{id}/messages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/requests/1/messages"
+          }
+        },
+        {
+          "name": "POST /requests/{id}/messages",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message_text\": \"مرحبا، متى ممكن الاستلام؟\"\n}"
+            },
+            "url": "{{baseUrl}}/requests/1/messages"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost/saed_app_api/public"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "refresh_token",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+.env
+FRONTEND_API.md
+vendor/
+public/uploads/
+logs/*.log
+!logs/.gitkeep
