@@ -29,6 +29,8 @@ class Validator
     {
         $errors = [];
 
+        //c
+
         foreach ($fields as $field) {
             if (!array_key_exists($field, $data) || self::isEmpty($data[$field])) {
                 $errors[$field] = $field . ' is required';
