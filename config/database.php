@@ -16,11 +16,20 @@ class Database
             return self::$connection;
         }
 
-        $host = env('DB_HOST', '127.0.0.1');
-$port = env('DB_PORT', '3306');
-$name = env('DB_DATABASE', 'railway');   // تعديل هنا
-$user = env('DB_USERNAME', 'root');      // تعديل هنا
-$pass = env('DB_PASSWORD', '');          // تعديل هنا
+          $host = \env('DB_HOST', '127.0.0.1') ?? '127.0.0.1';
+        $port = \env('DB_PORT', '3306') ?? '3306';
+        $name = \env('DB_NAME', 'saeddb') ?? 'university_app';
+        $user = \env('DB_USER', 'root') ?? 'root';
+        $pass = \env('DB_PASS', '') ?? '';
+
+//         $host = env('DB_HOST', '127.0.0.1');
+// $port = env('DB_PORT', '3306');
+// $name = env('DB_DATABASE', 'railway');   // تعديل هنا
+// $user = env('DB_USERNAME', 'root');      // تعديل هنا
+// $pass = env('DB_PASSWORD', '');   
+
+
+// تعديل هنا
 // $host = env('DB_HOST', env('MYSQLHOST', '127.0.0.1'));
 // $port = env('DB_PORT', env('MYSQLPORT', '3306'));
 // $name = env('DB_NAME', env('MYSQLDATABASE', 'university_app'));
